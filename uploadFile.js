@@ -8,6 +8,7 @@ async function upload() {
       'fine-tune'
     );
     console.log('File ID: ', response.data.id)
+    fs.writeFileSync('./fileId.js', `export const fileId = "${response.data.id}"`)
   } catch (err) {
     console.log('err: ', err)
   }
