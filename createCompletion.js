@@ -1,18 +1,29 @@
 import { openai } from './api.js'
+import readline from 'readline';
 
-async function createCompletion() {
+async function createCompletion(prompt) {
   try {
     const response = await openai.createCompletion({
-      model: 'davinci:ft-personal-2023-03-31-01-09-15',
-      prompt: 'What is Lens Protocol',
+      model: 'davinci',
+      prompt: prompt,
       max_tokens: 200
     })
     if (response.data) {
-      console.log('choices: ', response.data.choices)
+      console.log('choices: ', response.data.choices[0].text)
     }
   } catch (err) {
     console.log('err: ', err)
   }
 }
 
-createCompletion()
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question('What is your prompt? ', (answer) => {
+  createCompletion(answer)
+  rl.close();
+});
+
+
